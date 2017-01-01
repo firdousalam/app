@@ -239,3 +239,51 @@ angular.module('starter.controllers', [])
 .controller('forgetPasswordError', function($scope,$timeout,$interval,$location) {
 
 })
+
+
+
+
+
+/*
+// N.B please install nodemailer using npm install nodemailer
+var nodemailer 	= require('nodemailer'),
+	config 		= {
+	          'email_from'		    : 'company/organisation/person/sender name',
+	          'email_user'		    : 'xyz@gmail.com',
+	          'email_password'	  : 'XXXXXXXXXXXXX',
+	          'email_host' 		    : 'smtp.gmail.com',
+	          'email_timeout'		  : 500000,
+	          'email_port'		    : 465,
+	          'email_ssl'			    : false,
+	          'secure_connection' : false,
+
+};
+var to_mail = "abcd@gmail.com"
+var subject = "Forgot password";
+var body = "message body";
+
+
+
+    // create reusable transporter object using the default SMTP transport
+    var transporter = nodemailer.createTransport('smtps://'+config.email_user+':'+config.email_password+'@'+config.email_host);
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from        : config.email_from+'<'+config.email_user+'>', // sender address
+        to          : to_mail, // list of receivers
+        subject     : subject, // Subject line
+        text        : '', // plaintext body
+        html        : body // html body
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.log(error);
+        }
+        else
+        {
+            //console.log(info);
+        }
+    });
+
+
+*/

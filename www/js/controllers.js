@@ -72,22 +72,16 @@ angular.module('starter.controllers', [])
 				return true;
 			}
 			});
-
-		// For example's sake, hide the sheet after two seconds
-		/*
-		$timeout(function() {
-		hideSheet();
-		}, 2000);
-		*/
-
 	};
 	$scope.show();
-
-
+	$scope.showForgotPasswordOption = function()
+	{
+		$scope.show();
+	}
 })
 
 
-.controller('forgetPasswordMobile', function($scope,$ionicActionSheet,$location, $timeout ) {
+.controller('forgetPasswordMobile', function($scope,$http,$ionicActionSheet,$location, $timeout ) {
 
 		// Triggered on a button click, or some other target
 	$scope.show = function() {
@@ -106,11 +100,11 @@ angular.module('starter.controllers', [])
 			buttonClicked: function(index) {
 				if(index == 0)
 				{
-					$location.url('/app/forgetPasswordMobile');
+					$scope.generateResetCode();
 				}
 				if(index == 1)
 				{
-					$location.url('/app/forgetPasswordMobile');
+					$location.url('/app/forgetPasswordResetCode');
 				}
 				return true;
 			}
@@ -126,12 +120,27 @@ angular.module('starter.controllers', [])
 	};
 	$scope.generateResetCode = function()
 	{
-		$scope.show();
+    $http({
+    method: 'POST',
+    url: "http://139.59.11.3:3500/userLogin/login"
+    }).then(function successCallback(response) {
+      if(response.status == 200)
+      {
+        $scope.show();
+      }
+      else
+      {
+        // show error message
+        //$location.url('/app/forgetPasswordError');
+        //omit this function and unhide error message url
+        $scope.show();
+      }
+    }, function errorCallback(response) {
+    // handle error
+    });
 	}
-
-
 })
-.controller('forgetPasswordEmail', function($scope,$ionicActionSheet,$location, $timeout ) {
+.controller('forgetPasswordEmail', function($http,$scope,$ionicActionSheet,$location, $timeout ) {
 
 	// Triggered on a button click, or some other target
 	$scope.show = function() {
@@ -150,11 +159,11 @@ angular.module('starter.controllers', [])
 			buttonClicked: function(index) {
 				if(index == 0)
 				{
-					$location.url('/app/forgetPasswordMobile');
+					$scope.generateResetCode();
 				}
 				if(index == 1)
 				{
-					$location.url('/app/forgetPasswordMobile');
+					$location.url('/app/forgetPasswordResetCode');
 				}
 				return true;
 			}
@@ -170,8 +179,29 @@ angular.module('starter.controllers', [])
 	};
 	$scope.generateResetCode = function()
 	{
-		$scope.show();
+    $http({
+    method: 'POST',
+    url: "http://139.59.11.3:3500/userLogin/login"
+    }).then(function successCallback(response) {
+      if(response.status == 200)
+      {
+        $scope.show();
+      }
+      else
+      {
+        // show error message for unauthentic user
+        //$location.url('/app/forgetPasswordError');
+        //omit this function and unhide error message url
+        $scope.show();
+      }
+    }, function errorCallback(response) {
+    // handle error
+    });
+
+
+//		$scope.show();
 	}
+
 
 })
 .controller('forgetPasswordResetCode', function($scope,$timeout,$interval,$location) {

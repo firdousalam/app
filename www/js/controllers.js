@@ -70,7 +70,11 @@ angular.module('starter.controllers', [])
 					$location.url('/app/forgetPasswordMobile');
 				}
 				return true;
-			}
+			},
+
+      destructiveButtonClicked: function() {
+        return true;
+      }
 			});
 	};
 	$scope.show();
@@ -82,7 +86,8 @@ angular.module('starter.controllers', [])
 
 
 .controller('forgetPasswordMobile', function($scope,$http,$ionicActionSheet,$location, $timeout ) {
-
+    $scope.resetPassword = {};
+    $scope.resetPassword.updateType = "mobile";
 		// Triggered on a button click, or some other target
 	$scope.show = function() {
 
@@ -109,20 +114,14 @@ angular.module('starter.controllers', [])
 				return true;
 			}
 			});
-
-		// For example's sake, hide the sheet after two seconds
-		/*
-		$timeout(function() {
-		hideSheet();
-		}, 2000);
-		*/
-
 	};
 	$scope.generateResetCode = function()
 	{
+	console.log($scope.resetPassword);
     $http({
     method: 'POST',
-    url: "http://139.59.11.3:3500/userLogin/login"
+    url: "http://139.59.11.3:3500/userLogin/login",
+    data : $scope.resetPassword
     }).then(function successCallback(response) {
       if(response.status == 200)
       {
@@ -141,7 +140,8 @@ angular.module('starter.controllers', [])
 	}
 })
 .controller('forgetPasswordEmail', function($http,$scope,$ionicActionSheet,$location, $timeout ) {
-
+    $scope.resetPassword = {};
+    $scope.resetPassword.updateType = "emailId";
 	// Triggered on a button click, or some other target
 	$scope.show = function() {
 
@@ -168,20 +168,14 @@ angular.module('starter.controllers', [])
 				return true;
 			}
 			});
-
-		// For example's sake, hide the sheet after two seconds
-		/*
-		$timeout(function() {
-		hideSheet();
-		}, 2000);
-		*/
-
 	};
 	$scope.generateResetCode = function()
 	{
+	  console.log($scope.resetPassword);
     $http({
     method: 'POST',
-    url: "http://139.59.11.3:3500/userLogin/login"
+    url: "http://139.59.11.3:3500/userLogin/login",
+    data : $scope.resetPassword
     }).then(function successCallback(response) {
       if(response.status == 200)
       {
@@ -197,14 +191,10 @@ angular.module('starter.controllers', [])
     }, function errorCallback(response) {
     // handle error
     });
-
-
-//		$scope.show();
 	}
-
-
 })
-.controller('forgetPasswordResetCode', function($scope,$timeout,$interval,$location) {
+.controller('forgetPasswordResetCode', function($http,$scope,$timeout,$interval,$location) {
+  $scope.resetPassword = {};
 	$scope.resetCodeTime = 60000;
 	$timeout(function() {
 		$location.url('/app/forgotPassword');
@@ -235,6 +225,27 @@ angular.module('starter.controllers', [])
           $scope.stopInterval();
         });	
 	$scope.startInterval();
+
+	$scope.enterResetCode = function()
+	{
+	console.log($scope.resetPassword);
+    $http({
+    method: 'POST',
+    url: "http://139.59.11.3:3500/userLogin/login",
+    data : $scope.resetPassword
+    }).then(function successCallback(response) {
+      if(response.status == 200)
+      {
+        // added data make login and redirect to login or dashboard
+      }
+      else
+      {
+        $location.url('/app/forgetPasswordError');
+      }
+    }, function errorCallback(response) {
+    // handle error
+    });
+	}
 })
 .controller('forgetPasswordError', function($scope,$timeout,$interval,$location) {
 
